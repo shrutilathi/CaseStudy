@@ -7,7 +7,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import Bonds from './Bonds';
-
+import axios from 'axios'
 
 
 let theme = createTheme({
@@ -60,11 +60,15 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
 }));
 
 const Home = () => {
-  const [searchField, setSearchField] = useState("");
-  const [id,setId] =useState()
+  const [searchField, setSearchField] = useState(0);
   const [bonds,setBonds]=useState(false)
+  const [eqData,setEqData]=useState({})
   const handleSearchChange = e => {
-    setSearchField(e.target.value);
+    axios.get(`http://localhost:5150/api/Equity/GetEquityById/${searchField}`).then(
+      res=>setEqData(res.data)
+    ).catch(err=>console.log(err))
+
+    console.log(eqData)
   };
 
   return (
@@ -73,7 +77,6 @@ const Home = () => {
         <Stack sx={{placeContent: "center"}} spacing={4} direction="row">
           <Button variant="contained" onClick={()=>setBonds(false)}>EQUITY</Button>
           <Button variant="contained" onClick={()=>setBonds(true)}>BONDS</Button>
-          {console.log(bonds)}
           <Search>
             <SearchIconWrapper>
               <SearchIcon />
@@ -81,15 +84,16 @@ const Home = () => {
             <StyledInputBase
               placeholder="Enter Security ID"
               inputProps={{ 'aria-label': 'search' }}
-              onChange={handleSearchChange}
+              value={searchField}
+              onChange={(e)=>setSearchField(e.target.value)}
             />
              <Button size="small" variant="outlined" sx={{margin:'4px'}}
-              onClick ={()=>setId(searchField)}
+              onClick ={handleSearchChange}
              >Search</Button>
           </Search>
         </Stack>
         {
-          bonds? <Bonds/>: <Equity id={id}/>
+          bonds? <Bonds/>: <Equity/>
         }
       
       </ThemeProvider>

@@ -15,7 +15,7 @@ const Equity = ({id}) => {
         </Box>
 
         <Card variant="outlined">
-          <EquityForm id={id}/>
+          <EquityForm/>
         </Card>
       </Box>
     
