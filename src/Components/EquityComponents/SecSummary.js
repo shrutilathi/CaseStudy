@@ -10,7 +10,7 @@ const Item = styled(Box)(({ theme }) => ({
     textAlign: 'center'
 }));
 
-const SecSummary = () => {
+const SecSummary = ({id}) => {
     const [isInputEnabled, setInputEnabled] = useState(false);
 
     const enableInput = () => {
@@ -24,8 +24,8 @@ const SecSummary = () => {
                         <Grid item xs={12} sm={6} md={6}>
                             <Item>
                                 <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
-                                    <FormLabel sx={{ width: '150px' }}>Security Name</FormLabel>
-                                    <TextField disabled={!isInputEnabled} type="text" variant='filled' defaultValue={dummy[0].secName} />
+                                    <FormLabel sx={{ width: '150px' }}>Security Name{id}</FormLabel>
+                                    <TextField disabled={!isInputEnabled} type="text" variant='filled' defaultValue={""} />
                                 </Stack>
                             </Item>
                         </Grid>

@@ -18,7 +18,20 @@ const BPutSchedule = () => {
     <Box sx={{ width: '100%' }}>
       <FormControl>
       <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 5 }}>
-      put date
+      <Grid item xs={12} sm={6} md={6}>
+            <Item>
+              <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
+                <FormLabel sx={{ width: '150px' }}> Put Date</FormLabel>
+                <TextField
+                  type="date"
+                  name='PutDate'
+                  variant='filled'
+                // value={equity.IpoDate}
+                // onChange={handleValueChange}
+                />
+              </Stack>
+            </Item>
+          </Grid>
       <Grid item xs={12} sm={6} md={6}>
           <Item>
             <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>

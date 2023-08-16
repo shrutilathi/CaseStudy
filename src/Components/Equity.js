@@ -3,7 +3,7 @@ import {Box,Button,Card} from '@mui/material';
 import EquityForm from './EquityForm';
 import AddIcon from '@mui/icons-material/Add';
 import { Link } from "react-router-dom";
-const Equity = () => {
+const Equity = ({id}) => {
   return (
       <Box sx={{ p: 2 }}>
         <Box display="flex"
@@ -15,7 +15,7 @@ const Equity = () => {
         </Box>
 
         <Card variant="outlined">
-          <EquityForm />
+          <EquityForm id={id}/>
         </Card>
       </Box>
     

@@ -15,9 +15,9 @@ const Item = styled(Box)(({ theme }) => ({
 const DividentHistory = () => {
   const [isInputEnabled, setInputEnabled] = useState(false);
 
-    const enableInput = () => {
-        setInputEnabled(true);
-    };
+  const enableInput = () => {
+    setInputEnabled(true);
+  };
   return (
     <Box sx={{ width: '100%' }}>
       <FormControl>
@@ -26,10 +26,13 @@ const DividentHistory = () => {
             <Item>
               <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
                 <FormLabel sx={{ width: '150px' }}>Dividend Declared Date</FormLabel>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-
-                  <DatePicker />
-                </LocalizationProvider>
+                <TextField
+                  type="date"
+                  name='DividendDeclaredDate'
+                  variant='filled'
+                // value={equity.IpoDate}
+                // onChange={handleValueChange}
+                />
               </Stack>
             </Item>
           </Grid>
@@ -37,10 +40,13 @@ const DividentHistory = () => {
             <Item>
               <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
                 <FormLabel sx={{ width: '150px' }}>Dividend Ex Date</FormLabel>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-
-                  <DatePicker />
-                </LocalizationProvider>
+                <TextField
+                  type="date"
+                  name='DividendExDate'
+                  variant='filled'
+                // value={equity.IpoDate}
+                // onChange={handleValueChange}
+                />
               </Stack>
             </Item>
           </Grid>
@@ -48,10 +54,13 @@ const DividentHistory = () => {
             <Item>
               <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
                 <FormLabel sx={{ width: '150px' }}>Dividend Record Date</FormLabel>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-
-                  <DatePicker />
-                </LocalizationProvider>
+                <TextField
+                  type="date"
+                  name='DividendRecordDate'
+                  variant='filled'
+                // value={equity.IpoDate}
+                // onChange={handleValueChange}
+                />
               </Stack>
             </Item>
           </Grid>
@@ -59,10 +68,14 @@ const DividentHistory = () => {
             <Item>
               <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
                 <FormLabel sx={{ width: '150px' }}>Dividend Pay Date</FormLabel>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-
-                  <DatePicker />
-                </LocalizationProvider>
+                <TextField
+                  type="date"
+                  name='DividendPayDate'
+                  defaultValue="1998-07-13"
+                  variant='filled'
+                // value={equity.IpoDate}
+                // onChange={handleValueChange}
+                />
               </Stack>
             </Item>
           </Grid>
@@ -91,23 +104,23 @@ const DividentHistory = () => {
             </Item>
           </Grid>
           <Grid item xs={12} sm={12} md={12} sx={{
-                            m: 2,
-                            p: 2
+            m: 2,
+            p: 2
 
-                        }}>
-                            <Stack sx={{ placeContent: "center" }} direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 4 }}>
-                                <Button size="small" variant="contained" onClick={enableInput}>EDIT</Button>
-                                <Button size="small" variant="contained" color="error" startIcon={<DeleteIcon />}>DELETE</Button>
-                                <LoadingButton
-                                    size="small"
-                                    color="success"
-                                    startIcon={<SaveIcon />}
-                                    variant="contained"
-                                >
-                                    <span>Save</span>
-                                </LoadingButton>
-                            </Stack>
-                        </Grid>
+          }}>
+            <Stack sx={{ placeContent: "center" }} direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 4 }}>
+              <Button size="small" variant="contained" onClick={enableInput}>EDIT</Button>
+              <Button size="small" variant="contained" color="error" startIcon={<DeleteIcon />}>DELETE</Button>
+              <LoadingButton
+                size="small"
+                color="success"
+                startIcon={<SaveIcon />}
+                variant="contained"
+              >
+                <span>Save</span>
+              </LoadingButton>
+            </Stack>
+          </Grid>
         </Grid>
       </FormControl>
     </Box>

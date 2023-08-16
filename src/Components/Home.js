@@ -61,6 +61,7 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
 
 const Home = () => {
   const [searchField, setSearchField] = useState("");
+  const [id,setId] =useState()
   const [bonds,setBonds]=useState(false)
   const handleSearchChange = e => {
     setSearchField(e.target.value);
@@ -82,11 +83,13 @@ const Home = () => {
               inputProps={{ 'aria-label': 'search' }}
               onChange={handleSearchChange}
             />
-             <Button size="small" variant="outlined" sx={{margin:'4px'}}>Search</Button>
+             <Button size="small" variant="outlined" sx={{margin:'4px'}}
+              onClick ={()=>setId(searchField)}
+             >Search</Button>
           </Search>
         </Stack>
         {
-          bonds? <Bonds/>: <Equity />
+          bonds? <Bonds/>: <Equity id={id}/>
         }
       
       </ThemeProvider>

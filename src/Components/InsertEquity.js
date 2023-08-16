@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import { TextField, Button, Stack, RadioGroup, Radio, FormControl, FormLabel, ThemeProvider, createTheme, Card, FormControlLabel } from '@mui/material';
 import { Link } from "react-router-dom"
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import axios from 'axios'
 import {
     useNavigate
-  } from 'react-router-dom';
+} from 'react-router-dom';
 let theme = createTheme({
     palette: {
         primary: {
@@ -18,32 +16,108 @@ let theme = createTheme({
 const InsertEquity = () => {
     const navigate = useNavigate();
 
+    const [equity, setEquity] = useState({
+        "securityName": "",
+        "securityDescription": "",
+        "hasPosition": "",
+        "isActiveSecurity": "",
+        "lotSize": 0,
+        "bbgUniqueName": "",
+        "cusip": "",
+        "isin": "",
+        "sedol": "",
+        "bloombergTicker": "",
+        "bloombergUniqueId": "",
+        "bbgGlobalId": "",
+        "tickerAndExchange": "",
+        "isAdrFlag": "",
+        "adrUnderlyingTicker": "",
+        "adrUnderlyingCurrency": "",
+        "sharesPerAdr": "",
+        "ipoDate": "",
+        "pricingCurrency": "",
+        "settleDays": 0,
+        "totalSharesOutstanding": 0,
+        "votingRightsPerShare": 0,
+        "averageVolume": 0,
+        "beta": 0,
+        "shortInterest": 0,
+        "return": 0,
+        "volatility": 0,
+        "pfAssetClass": "",
+        "pfCountry": "",
+        "pfCreditRating": "",
+        "pfCurrency": "",
+        "pfInstrument": "",
+        "pfLiquidityProfile": "",
+        "pfMaturity": "",
+        "pfNaicsCode": "",
+        "pfRegion": "",
+        "pfSector": "",
+        "pfSubAssetClass": "",
+        "countryOfIssuance": "",
+        "exchange": "",
+        "issuer": "",
+        "issueCurrency": "",
+        "tradingCurrency": "",
+        "bbgIndustrySubGroup": "",
+        "bloombergIndustryGroup": "",
+        "bloombergSector": "",
+        "countryOfIncorporation": "",
+        "riskCurrency": "",
+        "openPrice": 0,
+        "closePrice": 0,
+        "volume": 0,
+        "lastPrice": 0,
+        "askPrice": 0,
+        "bidPrice": 0,
+        "peRatio": 0,
+        "dividendDeclaredDate": "",
+        "dividendExDate": "2023-08-16T14:28:42.186Z",
+        "dividendRecordDate": "2023-08-16T14:28:42.186Z",
+        "dividendPayDate": "2023-08-16T14:28:42.186Z",
+        "dividendAmount": 0,
+        "frequency": 0,
+        "dividendType": ""
+    })
+
     function handleSubmit(event) {
         event.preventDefault();
+        axios.post("http://localhost:5150/api/Equity/AddEquity", equity).then(res => console.log(res)).catch(err => console.log(err));
     }
 
-    
+    const handleValueChange = (e) => {
+        const { name, value } = e.target;
+        setEquity((prevState) => ({
+            ...prevState,
+            [name]: value,
+        }));
+    };
 
     return (
         <ThemeProvider theme={theme}>
             <Card sx={{ p: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <h2 style={{ textAlign: "center" }}>Insert Equity</h2>
-                <form onSubmit={handleSubmit} action={<Link to="/login" />}>
+                <form>
                     <TextField
                         type="text"
                         variant='outlined'
                         label="Security Name"
-                        name="secName"
-                        value={}
-                        // onChange={}
+                        name="securityName"
+                        value={equity.securityName}
+                        onChange={handleValueChange}
                         fullWidth
                         required
                         sx={{ mb: 4 }}
                     />
+
                     <TextField
                         type="text"
                         variant='outlined'
                         label="Security Description"
+                        name="securityDescription"
+                        value={equity.securityDescription}
+                        onChange={handleValueChange}
                         fullWidth
                         sx={{ mb: 4 }}
                     />
@@ -54,7 +128,9 @@ const InsertEquity = () => {
                         <RadioGroup
                             sx={{ textAlign: 'center' }}
                             row
-                            name="row-radio-buttons-group"
+                            name="hasPosition"
+                            value={equity.hasPosition}
+                            onChange={handleValueChange}
                         >
                             <FormControlLabel value="true" control={<Radio />} label="True" />
                             <FormControlLabel value="false" control={<Radio />} label="False" />
@@ -67,7 +143,9 @@ const InsertEquity = () => {
                         <RadioGroup
                             sx={{ textAlign: 'center' }}
                             row
-                            name="row-radio-buttons-group"
+                            name="isActiveSecurity"
+                            value={equity.isActiveSecurity}
+                            onChange={handleValueChange}
                         >
                             <FormControlLabel value="true" control={<Radio />} label="True" />
                             <FormControlLabel value="false" control={<Radio />} label="False" />
@@ -78,6 +156,9 @@ const InsertEquity = () => {
                         variant='outlined'
                         label="Lot Size"
                         fullWidth
+                        name="lotSize"
+                        value={equity.lotSize}
+                        onChange={handleValueChange}
                         sx={{ mb: 4 }}
                     />
                     <TextField
@@ -85,6 +166,9 @@ const InsertEquity = () => {
                         variant='outlined'
                         label="BBG Unique Name"
                         fullWidth
+                        name="bbgUniqueName"
+                        value={equity.bbgUniqueName}
+                        onChange={handleValueChange}
                         sx={{ mb: 4 }}
                     />
                     <TextField
@@ -92,12 +176,18 @@ const InsertEquity = () => {
                         variant='outlined'
                         label="CUSIP"
                         fullWidth
+                        name="cusip"
+                        value={equity.cusip}
+                        onChange={handleValueChange}
                         sx={{ mb: 4 }}
                     />
                     <TextField
                         type="text"
                         variant='outlined'
                         label="ISIN"
+                        name="isin"
+                        value={equity.isin}
+                        onChange={handleValueChange}
                         fullWidth
                         sx={{ mb: 4 }}
                     />
@@ -105,6 +195,9 @@ const InsertEquity = () => {
                         type="text"
                         variant='outlined'
                         label="SEDOL"
+                        name="sedol"
+                        value={equity.sedol}
+                        onChange={handleValueChange}
                         fullWidth
                         sx={{ mb: 4 }}
                     />
@@ -112,6 +205,9 @@ const InsertEquity = () => {
                         type="text"
                         variant='outlined'
                         label="Bloomberg Ticker"
+                        name="bloombergTicker"
+                        value={equity.bloombergTicker}
+                        onChange={handleValueChange}
                         fullWidth
                         sx={{ mb: 4 }}
                     />
@@ -119,6 +215,9 @@ const InsertEquity = () => {
                         type="text"
                         variant='outlined'
                         label="Bloomberg Unique ID"
+                        name="bloombergUniqueId"
+                        value={equity.bloombergUniqueId}
+                        onChange={handleValueChange}
                         fullWidth
                         sx={{ mb: 4 }}
                     />
@@ -126,6 +225,20 @@ const InsertEquity = () => {
                         type="text"
                         variant='outlined'
                         label="BBG Global ID"
+                        name="bbgGlobalId"
+                        value={equity.bbgGlobalId}
+                        onChange={handleValueChange}
+                        fullWidth
+                        sx={{ mb: 4 }}
+                    />
+
+                    <TextField
+                        type="text"
+                        variant='outlined'
+                        label="Ticker and Exchange"
+                        name="tickerAndExchange"
+                        value={equity.tickerAndExchange}
+                        onChange={handleValueChange}
                         fullWidth
                         sx={{ mb: 4 }}
                     />
@@ -136,7 +249,9 @@ const InsertEquity = () => {
                         <RadioGroup
                             sx={{ textAlign: 'center' }}
                             row
-                            name="row-radio-buttons-group"
+                            name="isAdrFlag"
+                            value={equity.isAdrFlag}
+                            onChange={handleValueChange}
                         >
                             <FormControlLabel value="true" control={<Radio />} label="True" />
                             <FormControlLabel value="false" control={<Radio />} label="False" />
@@ -145,14 +260,10 @@ const InsertEquity = () => {
                     <TextField
                         type="text"
                         variant='outlined'
-                        label="Ticker and Exchange"
-                        fullWidth
-                        sx={{ mb: 4 }}
-                    />
-                    <TextField
-                        type="text"
-                        variant='outlined'
                         label="ADR Underlying Ticker"
+                        name="adrUnderlyingTicker"
+                        value={equity.adrUnderlyingTicker}
+                        onChange={handleValueChange}
                         fullWidth
                         sx={{ mb: 4 }}
                     />
@@ -160,6 +271,9 @@ const InsertEquity = () => {
                         type="text"
                         variant='outlined'
                         label="ADR Underlying Currency"
+                        name="adrUnderlyingCurrency"
+                        value={equity.adrUnderlyingCurrency}
+                        onChange={handleValueChange}
                         fullWidth
                         sx={{ mb: 4 }}
                     />
@@ -167,26 +281,41 @@ const InsertEquity = () => {
                         type="text"
                         variant='outlined'
                         label="Shares Per ADR"
+                        name="sharesPerAdr"
+                        value={equity.sharesPerAdr}
+                        onChange={handleValueChange}
                         fullWidth
                         sx={{ mb: 4 }}
                     />
                     <Stack sx={{ mb: 4 }} direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
                         <FormLabel sx={{ p: '15px' }}>IPO Date</FormLabel>
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <DatePicker />
-                        </LocalizationProvider>
+                        <TextField
+                            type="date"
+                            name='ipoDate'
+                            value={equity.ipoDate}
+                            onChange={handleValueChange}
+                        />
+
+
                     </Stack>
+
                     <TextField
                         type="text"
                         variant='outlined'
                         label="Pricing Currency"
                         fullWidth
+                        name="pricingCurrency"
+                        value={equity.pricingCurrency}
+                        onChange={handleValueChange}
                         sx={{ mb: 4 }}
                     />
                     <TextField
                         type="text"
                         variant='outlined'
                         label="Total Shares Outstanding"
+                        name="totalSharesOutstanding"
+                        value={equity.totalSharesOutstanding}
+                        onChange={handleValueChange}
                         fullWidth
                         sx={{ mb: 4 }}
                     />
@@ -194,6 +323,9 @@ const InsertEquity = () => {
                         type="text"
                         variant='outlined'
                         label="Voting Rights Per Share"
+                        name="votingRightsPerShare"
+                        value={equity.votingRightsPerShare}
+                        onChange={handleValueChange}
                         fullWidth
                         sx={{ mb: 4 }}
                     />
@@ -201,6 +333,9 @@ const InsertEquity = () => {
                         type="text"
                         variant='outlined'
                         label="Average Volume - 20D"
+                        name="averageVolume"
+                        value={equity.averageVolume}
+                        onChange={handleValueChange}
                         fullWidth
                         sx={{ mb: 4 }}
                     />
@@ -208,6 +343,9 @@ const InsertEquity = () => {
                         type="text"
                         variant='outlined'
                         label="Beta"
+                        name="beta"
+                        value={equity.beta}
+                        onChange={handleValueChange}
                         fullWidth
                         sx={{ mb: 4 }}
                     />
@@ -215,6 +353,9 @@ const InsertEquity = () => {
                         type="text"
                         variant='outlined'
                         label="Short Interest"
+                        name="shortInterest"
+                        value={equity.shortInterest}
+                        onChange={handleValueChange}
                         fullWidth
                         sx={{ mb: 4 }}
                     />
@@ -222,6 +363,9 @@ const InsertEquity = () => {
                         type="text"
                         variant='outlined'
                         label="Return - YTD"
+                        name="return"
+                        value={equity.return}
+                        onChange={handleValueChange}
                         fullWidth
                         sx={{ mb: 4 }}
                     />
@@ -229,6 +373,9 @@ const InsertEquity = () => {
                         type="text"
                         variant='outlined'
                         label="Volatility - 90D"
+                        name="volatility"
+                        value={equity.volatility}
+                        onChange={handleValueChange}
                         fullWidth
                         sx={{ mb: 4 }}
                     />
@@ -236,6 +383,9 @@ const InsertEquity = () => {
                         type="text"
                         variant='outlined'
                         label="PF Assest Class"
+                        name="pfAssetClass"
+                        value={equity.pfAssetClass}
+                        onChange={handleValueChange}
                         fullWidth
                         sx={{ mb: 4 }}
                     />
@@ -243,6 +393,9 @@ const InsertEquity = () => {
                         type="text"
                         variant='outlined'
                         label="PF Country"
+                        name="pfCountry"
+                        value={equity.pfCountry}
+                        onChange={handleValueChange}
                         fullWidth
                         sx={{ mb: 4 }}
                     />
@@ -250,6 +403,9 @@ const InsertEquity = () => {
                         type="text"
                         variant='outlined'
                         label="PF Credit Rading"
+                        name="pfCreditRating"
+                        value={equity.pfCreditRating}
+                        onChange={handleValueChange}
                         fullWidth
                         sx={{ mb: 4 }}
                     />
@@ -257,6 +413,9 @@ const InsertEquity = () => {
                         type="text"
                         variant='outlined'
                         label="PF Currency"
+                        name="pfCurrency"
+                        value={equity.pfCurrency}
+                        onChange={handleValueChange}
                         fullWidth
                         sx={{ mb: 4 }}
                     />
@@ -264,6 +423,9 @@ const InsertEquity = () => {
                         type="text"
                         variant='outlined'
                         label="PF Instrument"
+                        name="pfInstrument"
+                        value={equity.pfInstrument}
+                        onChange={handleValueChange}
                         fullWidth
                         sx={{ mb: 4 }}
                     />
@@ -271,6 +433,9 @@ const InsertEquity = () => {
                         type="text"
                         variant='outlined'
                         label="PF Liquidity Profile"
+                        name="pfLiquidityProfile"
+                        value={equity.pfLiquidityProfile}
+                        onChange={handleValueChange}
                         fullWidth
                         sx={{ mb: 4 }}
                     />
@@ -278,6 +443,9 @@ const InsertEquity = () => {
                         type="text"
                         variant='outlined'
                         label="PF Maturity"
+                        name="pfMaturity"
+                        value={equity.pfMaturity}
+                        onChange={handleValueChange}
                         fullWidth
                         sx={{ mb: 4 }}
                     />
@@ -285,6 +453,9 @@ const InsertEquity = () => {
                         type="text"
                         variant='outlined'
                         label="PF NAICS Code"
+                        name="pfNaicsCode"
+                        value={equity.pfNaicsCode}
+                        onChange={handleValueChange}
                         fullWidth
                         sx={{ mb: 4 }}
                     />
@@ -292,6 +463,9 @@ const InsertEquity = () => {
                         type="text"
                         variant='outlined'
                         label="PF Region"
+                        name="pfRegion"
+                        value={equity.pfRegion}
+                        onChange={handleValueChange}
                         fullWidth
                         sx={{ mb: 4 }}
                     />
@@ -299,6 +473,9 @@ const InsertEquity = () => {
                         type="text"
                         variant='outlined'
                         label="PF Sector"
+                        name="pfSector"
+                        value={equity.pfSector}
+                        onChange={handleValueChange}
                         fullWidth
                         sx={{ mb: 4 }}
                     />
@@ -306,6 +483,9 @@ const InsertEquity = () => {
                         type="text"
                         variant='outlined'
                         label="PF Sub Assest Class"
+                        name="pfSubAssetClass"
+                        value={equity.pfSubAssetClass}
+                        onChange={handleValueChange}
                         fullWidth
                         sx={{ mb: 4 }}
                     />
@@ -313,6 +493,9 @@ const InsertEquity = () => {
                         type="text"
                         variant='outlined'
                         label="Country of Issuance"
+                        name="countryOfIssuance"
+                        value={equity.countryOfIssuance}
+                        onChange={handleValueChange}
                         fullWidth
                         sx={{ mb: 4 }}
                     />
@@ -320,6 +503,9 @@ const InsertEquity = () => {
                         type="text"
                         variant='outlined'
                         label="Exchange"
+                        name="exchange"
+                        value={equity.exchange}
+                        onChange={handleValueChange}
                         fullWidth
                         sx={{ mb: 4 }}
                     />
@@ -327,6 +513,9 @@ const InsertEquity = () => {
                         type="text"
                         variant='outlined'
                         label="Issuer"
+                        name="issuer"
+                        value={equity.issuer}
+                        onChange={handleValueChange}
                         fullWidth
                         sx={{ mb: 4 }}
                     />
@@ -334,6 +523,9 @@ const InsertEquity = () => {
                         type="text"
                         variant='outlined'
                         label="Issue Currency"
+                        name="issueCurrency"
+                        value={equity.issueCurrency}
+                        onChange={handleValueChange}
                         fullWidth
                         sx={{ mb: 4 }}
                     />
@@ -341,14 +533,19 @@ const InsertEquity = () => {
                         type="text"
                         variant='outlined'
                         label="Trading Currency"
+                        name="tradingCurrency"
+                        value={equity.tradingCurrency}
+                        onChange={handleValueChange}
                         fullWidth
-                        required
                         sx={{ mb: 4 }}
                     />
                     <TextField
                         type="text"
                         variant='outlined'
                         label="BBG Industry Sub Group"
+                        name="bbgIndustrySubGroup"
+                        value={equity.bbgIndustrySubGroup}
+                        onChange={handleValueChange}
                         fullWidth
                         sx={{ mb: 4 }}
                     />
@@ -356,6 +553,9 @@ const InsertEquity = () => {
                         type="text"
                         variant='outlined'
                         label="Bloomberg Industry Group"
+                        name="bloombergIndustryGroup"
+                        value={equity.bloombergIndustryGroup}
+                        onChange={handleValueChange}
                         fullWidth
                         sx={{ mb: 4 }}
                     />
@@ -363,6 +563,9 @@ const InsertEquity = () => {
                         type="text"
                         variant='outlined'
                         label="Bloomberg Sector"
+                        name="bloombergSector"
+                        value={equity.bloombergSector}
+                        onChange={handleValueChange}
                         fullWidth
                         sx={{ mb: 4 }}
                     />
@@ -370,6 +573,9 @@ const InsertEquity = () => {
                         type="text"
                         variant='outlined'
                         label="Country of Incorporation"
+                        name="countryOfIncorporation"
+                        value={equity.countryOfIncorporation}
+                        onChange={handleValueChange}
                         fullWidth
                         sx={{ mb: 4 }}
                     />
@@ -377,6 +583,9 @@ const InsertEquity = () => {
                         type="text"
                         variant='outlined'
                         label="Risk Currency"
+                        name="riskCurrency"
+                        value={equity.riskCurrency}
+                        onChange={handleValueChange}
                         fullWidth
                         sx={{ mb: 4 }}
                     />
@@ -385,6 +594,9 @@ const InsertEquity = () => {
                         type="text"
                         variant='outlined'
                         label="Open Price"
+                        name="openPrice"
+                        value={equity.openPrice}
+                        onChange={handleValueChange}
                         fullWidth
                         sx={{ mb: 4 }}
                     />
@@ -392,6 +604,9 @@ const InsertEquity = () => {
                         type="text"
                         variant='outlined'
                         label="Close Price"
+                        name="closePrice"
+                        value={equity.closePrice}
+                        onChange={handleValueChange}
                         fullWidth
                         sx={{ mb: 4 }}
                     />
@@ -399,6 +614,9 @@ const InsertEquity = () => {
                         type="text"
                         variant='outlined'
                         label="Volume"
+                        name="volume"
+                        value={equity.volume}
+                        onChange={handleValueChange}
                         fullWidth
                         sx={{ mb: 4 }}
                     />
@@ -406,6 +624,9 @@ const InsertEquity = () => {
                         type="text"
                         variant='outlined'
                         label="Last Price"
+                        name="lastPrice"
+                        value={equity.lastPrice}
+                        onChange={handleValueChange}
                         fullWidth
                         sx={{ mb: 4 }}
                     />
@@ -413,6 +634,9 @@ const InsertEquity = () => {
                         type="text"
                         variant='outlined'
                         label="Ask Price"
+                        name="askPrice"
+                        value={equity.askPrice}
+                        onChange={handleValueChange}
                         fullWidth
                         sx={{ mb: 4 }}
                     />
@@ -420,6 +644,9 @@ const InsertEquity = () => {
                         type="text"
                         variant='outlined'
                         label="Bid Price"
+                        name="bidPrice"
+                        value={equity.bidPrice}
+                        onChange={handleValueChange}
                         fullWidth
                         sx={{ mb: 4 }}
                     />
@@ -427,39 +654,64 @@ const InsertEquity = () => {
                         type="text"
                         variant='outlined'
                         label="PE Ratio"
+                        name="peRatio"
+                        value={equity.peRatio}
+                        onChange={handleValueChange}
                         fullWidth
                         sx={{ mb: 4 }}
                     />
                     <Stack sx={{ mb: 4 }} direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
                         <FormLabel sx={{ p: '15px' }}>Dividend Declared Date</FormLabel>
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <TextField
+                            type="date"
+                            name='dividendDeclaredDate'
+                            value={equity.dividendDeclaredDate}
+                            onChange={handleValueChange}
+                        >
 
-                            <DatePicker />
-                        </LocalizationProvider>
+                        </TextField>
                     </Stack>
                     <Stack sx={{ mb: 4 }} direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
                         <FormLabel sx={{ p: '15px' }}>Dividend Ex Date</FormLabel>
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <DatePicker />
-                        </LocalizationProvider>
+                        <TextField
+                            type="date"
+                            name='dividendExDate'
+                            value={equity.dividendExDate}
+                            onChange={handleValueChange}
+                        >
+
+                        </TextField>
                     </Stack>
                     <Stack sx={{ mb: 4 }} direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
                         <FormLabel sx={{ p: '15px' }}>Dividend Record Date</FormLabel>
-                        {/* <TextField type="text" variant='filled' /> */}
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <DatePicker />
-                        </LocalizationProvider>
+
+                        <TextField
+                            type="date"
+                            name='dividendRecordDate'
+                            value={equity.dividendRecordDate}
+                            onChange={handleValueChange}
+                        >
+
+                        </TextField>
                     </Stack>
                     <Stack sx={{ mb: 4 }} direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
                         <FormLabel sx={{ p: '15px' }}>Dividend Pay Date</FormLabel>
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <DatePicker />
-                        </LocalizationProvider>
+                        <TextField
+                            type="date"
+                            name='dividendPayDate'
+                            value={equity.dividendPayDate}
+                            onChange={handleValueChange}
+                        >
+
+                        </TextField>
                     </Stack>
                     <TextField
                         type="text"
                         variant='outlined'
                         label="Dividend Amount"
+                        name="dividendAmount"
+                        value={equity.dividendAmount}
+                        onChange={handleValueChange}
                         fullWidth
                         sx={{ mb: 4 }}
                     />
@@ -467,6 +719,9 @@ const InsertEquity = () => {
                         type="text"
                         variant='outlined'
                         label="Frequency"
+                        name="frequency"
+                        value={equity.frequency}
+                        onChange={handleValueChange}
                         fullWidth
                         sx={{ mb: 4 }}
                     />
@@ -474,6 +729,9 @@ const InsertEquity = () => {
                         type="text"
                         variant='outlined'
                         label="Dividend Type"
+                        name="dividendType"
+                        value={equity.dividendType}
+                        onChange={handleValueChange}
                         fullWidth
                         sx={{ mb: 4 }}
                     />
@@ -481,8 +739,8 @@ const InsertEquity = () => {
                         display: "flex",
                         justifyContent: "center"
                     }}>
-                        <Button size="small" variant="contained" type="submit" sx={{m:2}} onClick={() => navigate(-1)}>GO Back</Button>
-                        <Button variant="contained" type="submit" sx={{m:2}}>Submit</Button>
+                        <Button size="small" variant="contained" type="submit" sx={{ m: 2 }} onClick={() => navigate(-1)}>GO Back</Button>
+                        <Button variant="contained" type="submit" onClick={handleSubmit} sx={{ m: 2 }}>Submit</Button>
                     </div>
                 </form>
             </Card>

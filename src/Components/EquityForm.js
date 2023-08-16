@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {Box,Tab} from "@mui/material";
 import TabPanel from "@mui/lab/TabPanel";
 import TabContext from "@mui/lab/TabContext";
@@ -15,9 +15,14 @@ import DividentHistory from "./EquityComponents/DividentHistory";
 
 
 
-const EquityForm = () => {
-  const [value, setValue] = React.useState("1");
+const EquityForm = ({id}) => {
+  useEffect(()=>{
+    console.log(id)
+    //axios get ki call 
 
+  })
+  const [value, setValue] = React.useState("1");
+// const [data,setdata] = React.useState()
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -40,7 +45,7 @@ const EquityForm = () => {
             <Tab label="Dividend History" value="8" />
           </TabList>
           <TabPanel value="1">
-            <SecSummary />
+            <SecSummary id={id}/>
           </TabPanel>
           <TabPanel value="2">
             <SecIdentifier />

@@ -1,5 +1,5 @@
-import React, { useState }  from 'react'
-import { TextField,FormControl, FormLabel, Grid, styled, Box, Stack, Button, Radio, RadioGroup, FormControlLabel } from '@mui/material';
+import React, { useState } from 'react'
+import { TextField, FormControl, FormLabel, Grid, styled, Box, Stack, Button, Radio, RadioGroup, FormControlLabel } from '@mui/material';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -68,10 +68,13 @@ const SecDetails = () => {
                         <Item>
                             <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
                                 <FormLabel sx={{ width: '150px' }}>IPO Date</FormLabel>
-                                <LocalizationProvider dateAdapter={AdapterDayjs}>
-
-                                    <DatePicker />
-                                </LocalizationProvider>
+                                <TextField
+                                    type="date"
+                                    name='IpoDate'
+                                    variant='filled'
+                                // value={equity.IpoDate}
+                                // onChange={handleValueChange}
+                                />
                             </Stack>
                         </Item>
                     </Grid>
@@ -108,23 +111,23 @@ const SecDetails = () => {
                         </Item>
                     </Grid>
                     <Grid item xs={12} sm={12} md={12} sx={{
-                            m: 2,
-                            p: 2
+                        m: 2,
+                        p: 2
 
-                        }}>
-                            <Stack sx={{ placeContent: "center" }} direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 4 }}>
-                                <Button size="small" variant="contained" onClick={enableInput} >EDIT</Button>
-                                <Button size="small" variant="contained" color="error" startIcon={<DeleteIcon />}>DELETE</Button>
-                                <LoadingButton
-                                    size="small"
-                                    color="success"
-                                    startIcon={<SaveIcon />}
-                                    variant="contained"
-                                >
-                                    <span>Save</span>
-                                </LoadingButton>
-                            </Stack>
-                        </Grid>
+                    }}>
+                        <Stack sx={{ placeContent: "center" }} direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 4 }}>
+                            <Button size="small" variant="contained" onClick={enableInput} >EDIT</Button>
+                            <Button size="small" variant="contained" color="error" startIcon={<DeleteIcon />}>DELETE</Button>
+                            <LoadingButton
+                                size="small"
+                                color="success"
+                                startIcon={<SaveIcon />}
+                                variant="contained"
+                            >
+                                <span>Save</span>
+                            </LoadingButton>
+                        </Stack>
+                    </Grid>
                 </Grid>
             </FormControl>
         </Box>

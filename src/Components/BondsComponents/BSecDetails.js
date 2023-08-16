@@ -21,7 +21,20 @@ const BSecDetails = () => {
       <FormControl>
 
         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 5 }}>
-          First coupon date
+          <Grid item xs={12} sm={6} md={6}>
+            <Item>
+              <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
+                <FormLabel sx={{ width: '150px' }}>First Coupon Date</FormLabel>
+                <TextField
+                  type="date"
+                  name='FirstCouponDate'
+                  variant='filled'
+                // value={equity.IpoDate}
+                // onChange={handleValueChange}
+                />
+              </Stack>
+            </Item>
+          </Grid>
           <Grid item xs={12} sm={6} md={6}>
             <Item>
               <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
@@ -121,9 +134,34 @@ const BSecDetails = () => {
               </Stack>
             </Item>
           </Grid>
-          Issue Date
-          Last Reset Date
-          rMaturity
+          <Grid item xs={12} sm={6} md={6}>
+            <Item>
+              <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
+                <FormLabel sx={{ width: '150px' }}>Last Reset Date</FormLabel>
+                <TextField
+                  type="date"
+                  name='FirstCouponDate'
+                  variant='filled'
+                // value={equity.IpoDate}
+                // onChange={handleValueChange}
+                />
+              </Stack>
+            </Item>
+          </Grid>
+          <Grid item xs={12} sm={6} md={6}>
+            <Item>
+              <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
+                <FormLabel sx={{ width: '150px' }}>Maturity</FormLabel>
+                <TextField
+                  type="date"
+                  name='FirstCouponDate'
+                  variant='filled'
+                // value={equity.IpoDate}
+                // onChange={handleValueChange}
+                />
+              </Stack>
+            </Item>
+          </Grid>
           <Grid item xs={12} sm={6} md={6}>
             <Item>
               <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
@@ -140,7 +178,21 @@ const BSecDetails = () => {
               </Stack>
             </Item>
           </Grid>
-          Penultimate Coupon Date
+          <Grid item xs={12} sm={6} md={6}>
+            <Item>
+              <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
+                <FormLabel sx={{ width: '150px' }}> Penultimate Coupon Date</FormLabel>
+                <TextField
+                  type="date"
+                  name='FirstCouponDate'
+                  variant='filled'
+                // value={equity.IpoDate}
+                // onChange={handleValueChange}
+                />
+              </Stack>
+            </Item>
+          </Grid>
+     
           <Grid item xs={12} sm={6} md={6}>
             <Item>
               <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
@@ -161,7 +213,7 @@ const BSecDetails = () => {
                   name="row-radio-buttons-group"
                 >
                   <FormControlLabel value="true" disabled={!isInputEnabled} control={<Radio />} label="True" />
-                  <FormControlLabel value="false"disabled={!isInputEnabled}  control={<Radio />} label="False" />
+                  <FormControlLabel value="false" disabled={!isInputEnabled} control={<Radio />} label="False" />
                 </RadioGroup>
               </Stack>
             </Item>
