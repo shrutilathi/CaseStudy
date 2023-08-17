@@ -63,11 +63,16 @@ const Home = () => {
   const [searchField, setSearchField] = useState(0);
   const [bonds,setBonds]=useState(false)
   const [eqData,setEqData]=useState({})
+  const [bondsData,setBondsData]=useState({})
   const handleSearchChange = e => {
     axios.get(`http://localhost:5150/api/Equity/GetEquityById/${searchField}`).then(
       res=>setEqData(res.data)
     ).catch(err=>console.log(err))
 
+    axios.get(`http://localhost:5150/api/Bonds/GetBondById/${searchField}`).then(
+      res=>setBondsData(res.data)
+    ).catch(err=>console.log(err))
+    
     console.log(eqData)
   };
 
@@ -93,7 +98,7 @@ const Home = () => {
           </Search>
         </Stack>
         {
-          bonds? <Bonds/>: <Equity/>
+          bonds? <Bonds bondsData={bondsData}/>: <Equity eqData={eqData}/>
         }
       
       </ThemeProvider>
