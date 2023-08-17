@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { TextField, Button, Stack, RadioGroup, Radio, FormControl, FormLabel, ThemeProvider, createTheme, Card, FormControlLabel } from '@mui/material';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import axios from 'axios'
 import {
   useNavigate
@@ -20,58 +19,58 @@ const InsertBonds = () => {
   const [bonds, setBonds] = useState({
 
     "bondId": 0,
-    "securityDescription": "string",
-    "securityName": "string",
-    "assetType": "string",
-    "investmentType": "string",
+    "securityDescription": "",
+    "securityName": "",
+    "assetType": "",
+    "investmentType": "",
     "tradingFactor": 0,
     "pricingFactor": 0,
-    "isin": "string",
-    "bbgTicker": "string",
-    "bbgUniqueId": "string",
-    "cusip": "string",
-    "sedol": "string",
+    "isin": "",
+    "bbgTicker": "",
+    "bbgUniqueId": "",
+    "cusip": "",
+    "sedol": "",
     "firstCouponDate": "2023-08-16T15:33:25.582Z",
-    "couponCap": "string",
-    "couponFloor": "string",
+    "couponCap": "",
+    "couponFloor": "",
     "couponFrequency": 0,
     "couponRate": 0,
-    "couponType": "string",
-    "spread": "string",
-    "callableFlag": "string",
-    "fixToFloatFlag": "string",
-    "putableFlag": "string",
+    "couponType": "",
+    "spread": "",
+    "callableFlag": "",
+    "fixToFloatFlag": "",
+    "putableFlag": "",
     "issueDate": "2023-08-16T15:33:25.582Z",
     "lastResetDate": "2023-08-16T15:33:25.582Z",
     "maturity": "2023-08-16T15:33:25.582Z",
     "callNotificationMaxDays": 0,
     "putNotificationMaxDays": 0,
     "penultimateCouponDate": "2023-08-16T15:33:25.582Z",
-    "resetFrequency": "string",
-    "hasPosition": "string",
+    "resetFrequency": "",
+    "hasPosition": "",
     "macaulayDuration": 0,
     "volatility30days": 0,
     "volatility90days": 0,
     "convexity": 0,
     "avgVolume30days": 0,
-    "pfAssetClass": "string",
-    "pfCountry": "string",
-    "pfCreditRating": "string",
-    "pfCurrency": "string",
-    "pfInstrument": "string",
-    "pfLiquidityProfile": "string",
-    "pfMaturity": "string",
-    "pfNaicsCode": "string",
-    "pfRegion": "string",
-    "pfSector": "string",
-    "pfSubAssetClass": "string",
-    "bbgIndustryGroup": "string",
-    "bbgIndustrySubGroup": "string",
-    "bbgIndustrySector": "string",
-    "countryOfIssuance": "string",
-    "issueCurrency": "string",
-    "issuer": "string",
-    "riskCurrency": "string",
+    "pfAssetClass": "",
+    "pfCountry": "",
+    "pfCreditRating": "",
+    "pfCurrency": "",
+    "pfInstrument": "",
+    "pfLiquidityProfile": "",
+    "pfMaturity": "",
+    "pfNaicsCode": "",
+    "pfRegion": "",
+    "pfSector": "",
+    "pfSubAssetClass": "",
+    "bbgIndustryGroup": "",
+    "bbgIndustrySubGroup": "",
+    "bbgIndustrySector": "",
+    "countryOfIssuance": "",
+    "issueCurrency": "",
+    "issuer": "",
+    "riskCurrency": "",
     "putDate": "2023-08-16T15:33:25.582Z",
     "putPrice": 0,
     "askPrice": 0,
@@ -87,7 +86,7 @@ const InsertBonds = () => {
   })
   function handleSubmit(event) {
     event.preventDefault();
-    axios.post("http://localhost:5150/api/Bonds/AddBond", bonds).then(res => console.log(res)).catch(err => console.log(err));
+    axios.post("http://localhost:5150/api/Bonds/AddBond", bonds).then(res => {alert("Bonds Inserted Successfully")}).catch(err => {alert("OOPS! Something Went wrong..Try Again")});
   }
 
   const handleValueChange = (e) => {
@@ -127,6 +126,7 @@ const InsertBonds = () => {
             value={bonds.securityName}
             onChange={handleValueChange}
             fullWidth
+            required
             sx={{ mb: 4 }}
 
           />
@@ -138,6 +138,7 @@ const InsertBonds = () => {
             value={bonds.assetType}
             onChange={handleValueChange}
             fullWidth
+            required
             sx={{ mb: 4 }}
 
           />
@@ -149,6 +150,7 @@ const InsertBonds = () => {
             value={bonds.investmentType}
             onChange={handleValueChange}
             fullWidth
+            required
             sx={{ mb: 4 }}
 
           />
@@ -203,6 +205,7 @@ const InsertBonds = () => {
             name="bbgUniqueId"
             value={bonds.bbgUniqueId}
             onChange={handleValueChange}
+            required
             fullWidth
             sx={{ mb: 4 }}
 

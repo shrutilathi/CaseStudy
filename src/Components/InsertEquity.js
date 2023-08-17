@@ -83,7 +83,7 @@ const InsertEquity = () => {
 
     function handleSubmit(event) {
         event.preventDefault();
-        axios.post("http://localhost:5150/api/Equity/AddEquity", equity).then(res => console.log(res)).catch(err => console.log(err));
+        axios.post("http://localhost:5150/api/Equity/AddEquity", equity).then(res => {alert("Equity Inserted Successfully")}).catch(err => {alert("OOPS! Something Went wrong..Try Again")});
     }
 
     const handleValueChange = (e) => {

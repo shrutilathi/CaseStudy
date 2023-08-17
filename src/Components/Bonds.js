@@ -8,8 +8,10 @@ import { Link } from "react-router-dom";
 import TabPanel from "@mui/lab/TabPanel";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
-
-
+import axios from 'axios';
+import {
+  useNavigate
+} from 'react-router-dom';
 
 const Item = styled(Box)(({ theme }) => ({
   padding: theme.spacing(1),
@@ -18,7 +20,9 @@ const Item = styled(Box)(({ theme }) => ({
 
 
 const Bonds = (props) => {
+  
 
+  const navigate = useNavigate();
   const {
     bondId,
     securityDescription,
@@ -85,6 +89,31 @@ const Bonds = (props) => {
     callDate,
     callPrice
   } = props.bondsData
+
+ 
+  const handleDelete = ()=>{
+  
+            axios.delete(`http://localhost:5150/api/Bonds/DeleteBond/${bondId}`)
+            .then(res => {
+      alert("Record Deleted Successfully");
+      window.location.reload(true)
+      
+    })
+            .catch(err => {alert("Please Enter Valid Security ID")});
+
+   
+
+      }
+
+
+  const formattedCouponDate =  firstCouponDate ?  firstCouponDate.split('T')[0] : '';
+  const formattedlastResetDate = lastResetDate ? lastResetDate.split('T')[0] : '';
+  const formattedmaturityDate = maturity ? maturity.split('T')[0] : '';
+  const formattedissueDate = issueDate ? issueDate.split('T')[0] : '';
+  const formattedpenultimateCouponDate = penultimateCouponDate? penultimateCouponDate.split('T')[0] : '';
+  const formattedputDate=putDate ? putDate.split('T')[0] : '';
+  const formattedcallDate=callDate ? callDate.split('T')[0] : '';
+
   const [value, setValue] = React.useState("1");
   const [isInputEnabled, setInputEnabled] = useState(false);
 
@@ -97,852 +126,13 @@ const Bonds = (props) => {
     setInputEnabled(true);
   };
   return (
-    // <Box sx={{ p: 2 }}>
-    //   <Box display="flex"
-    //     justifyContent="center"
-    //     alignItems="center">
-    //     <Button size="small" startIcon={<AddIcon />} variant="contained" sx={{ m: 2 }} >
-    //       <Link to="insertBonds">Insert New Bonds</Link>
-    //     </Button>
-    //   </Box>
-
-    //   <Card variant="outlined">
-    //     <Box sx={{ width: "100%", bgcolor: "background.paper" }}>
-    //       <TabContext value={value}>
-    //         <TabList
-    //           onChange={handleChange}
-    //           variant="scrollable"
-    //           scrollButtons="auto"
-    //         >
-    //           <Tab label="Security Summary" value="1" />
-    //           <Tab label="Security Identifier" value="2" />
-    //           <Tab label="Security Details" value="3" />
-    //           <Tab label="Risk" value="4" />
-    //           <Tab label="Regulatory Details" value="5" />
-    //           <Tab label="Reference Data" value="6" />
-    //           <Tab label="Put Schedule" value="7" />
-    //           <Tab label="Pricing and Analytics" value="8" />
-    //           <Tab label="Call Schedule" value="9" />
-    //         </TabList>
-    //         <TabPanel value="1">
-
-
-    //           <Box sx={{ width: '100%' }}>
-    //             <FormControl>
-    //               <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 5 }}>
-    //                 <Grid item xs={12} sm={6} md={6}>
-    //                   <Item>
-    //                     <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
-    //                       <FormLabel sx={{ width: '150px' }}>Security Description</FormLabel>
-    //                       <TextField disabled={!isInputEnabled} type="text" variant='filled' defaultValue={"s"} />
-    //                     </Stack>
-    //                   </Item>
-    //                 </Grid>
-    //                 <Grid item xs={12} sm={6} md={6}>
-    //                   <Item>
-    //                     <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
-    //                       <FormLabel sx={{ width: '150px' }}>Security Name</FormLabel>
-    //                       <TextField disabled={!isInputEnabled} multiline type="text" variant='filled' defaultValue={"des"} />
-    //                     </Stack>
-    //                   </Item>
-    //                 </Grid>
-    //                 <Grid item xs={12} sm={6} md={6}>
-    //                   <Item>
-    //                     <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
-    //                       <FormLabel sx={{ width: '150px' }}>Asset Type</FormLabel>
-    //                       <TextField disabled={!isInputEnabled} type="text" variant='filled' />
-    //                     </Stack>
-    //                   </Item>
-    //                 </Grid>
-    //                 <Grid item xs={12} sm={6} md={6}>
-    //                   <Item>
-    //                     <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
-    //                       <FormLabel sx={{ width: '150px' }}>Investment Type</FormLabel>
-    //                       <TextField disabled={!isInputEnabled} type="text" variant='filled' />
-    //                     </Stack>
-    //                   </Item>
-    //                 </Grid>
-    //                 <Grid item xs={12} sm={6} md={6}>
-    //                   <Item>
-    //                     <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
-    //                       <FormLabel sx={{ width: '150px' }}>Trading Factor</FormLabel>
-    //                       <TextField disabled={!isInputEnabled} type="text" variant='filled' />
-    //                     </Stack>
-    //                   </Item>
-    //                 </Grid>
-    //                 <Grid item xs={12} sm={6} md={6}>
-    //                   <Item>
-    //                     <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
-    //                       <FormLabel sx={{ width: '150px' }}>Pricing Factor</FormLabel>
-    //                       <TextField disabled={!isInputEnabled} type="text" variant='filled' />
-    //                     </Stack>
-    //                   </Item>
-    //                 </Grid>
-    //                 <Grid item xs={12} sm={12} md={12} sx={{
-    //                   m: 2,
-    //                   p: 2
-
-    //                 }}>
-    //                   <Stack sx={{ placeContent: "center" }} direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 4 }}>
-    //                     <Button size="small" variant="contained" onClick={enableInput}>EDIT</Button>
-    //                     <Button size="small" variant="contained" color="error" startIcon={<DeleteIcon />}>DELETE</Button>
-    //                     <LoadingButton
-    //                       size="small"
-    //                       color="success"
-    //                       startIcon={<SaveIcon />}
-    //                       variant="contained"
-    //                     >
-    //                       <span>Save</span>
-    //                     </LoadingButton>
-    //                   </Stack>
-    //                 </Grid>
-    //               </Grid>
-    //             </FormControl>
-    //           </Box>
-    //         </TabPanel>
-    //         <TabPanel value="2">
-    //           <Box sx={{ width: '100%' }}>
-    //             <FormControl>
-    //               <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 5 }}>
-    //                 <Grid item xs={12} sm={6} md={6}>
-    //                   <Item>
-    //                     <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
-    //                       <FormLabel sx={{ width: '150px' }}>ISIN</FormLabel>
-    //                       <TextField disabled={!isInputEnabled} type="text" variant='filled' />
-    //                     </Stack>
-    //                   </Item>
-    //                 </Grid>
-    //                 <Grid item xs={12} sm={6} md={6}>
-    //                   <Item>
-    //                     <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
-    //                       <FormLabel sx={{ width: '150px' }}>Bloomberg Ticker</FormLabel>
-    //                       <TextField disabled={!isInputEnabled} type="text" variant='filled' />
-    //                     </Stack>
-    //                   </Item>
-    //                 </Grid>
-    //                 <Grid item xs={12} sm={6} md={6}>
-    //                   <Item>
-    //                     <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
-    //                       <FormLabel sx={{ width: '150px' }}>Bloomberg Unique ID</FormLabel>
-    //                       <TextField disabled={!isInputEnabled} type="text" variant='filled' />
-    //                     </Stack>
-    //                   </Item>
-    //                 </Grid>
-    //                 <Grid item xs={12} sm={6} md={6}>
-    //                   <Item>
-    //                     <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
-    //                       <FormLabel sx={{ width: '150px' }}>CUSIP</FormLabel>
-    //                       <TextField disabled={!isInputEnabled} type="text" variant='filled' />
-    //                     </Stack>
-    //                   </Item>
-    //                 </Grid>
-    //                 <Grid item xs={12} sm={6} md={6}>
-    //                   <Item>
-    //                     <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
-    //                       <FormLabel sx={{ width: '150px' }}>SEDOL</FormLabel>
-    //                       <TextField disabled={!isInputEnabled} type="text" variant='filled' />
-    //                     </Stack>
-    //                   </Item>
-    //                 </Grid>
-
-    //                 <Grid item xs={12} sm={12} md={12} sx={{
-    //                   m: 2,
-    //                   p: 2
-
-    //                 }}>
-    //                   <Stack sx={{ placeContent: "center" }} direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 4 }}>
-    //                     <Button size="small" variant="contained" onClick={enableInput} >EDIT</Button>
-    //                     <Button size="small" variant="contained" color="error" startIcon={<DeleteIcon />}>DELETE</Button>
-    //                     <LoadingButton
-    //                       size="small"
-    //                       color="success"
-    //                       startIcon={<SaveIcon />}
-    //                       variant="contained"
-    //                     >
-    //                       <span>Save</span>
-    //                     </LoadingButton>
-    //                   </Stack>
-    //                 </Grid>
-    //               </Grid>
-    //             </FormControl>
-    //           </Box>
-    //         </TabPanel>
-    //         <TabPanel value="3">
-    //           <Box sx={{ width: '100%' }}>
-    //             <FormControl>
-
-    //               <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 5 }}>
-    //                 <Grid item xs={12} sm={6} md={6}>
-    //                   <Item>
-    //                     <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
-    //                       <FormLabel sx={{ width: '150px' }}>First Coupon Date</FormLabel>
-    //                       <TextField
-    //                         type="date"
-    //                         name='FirstCouponDate'
-    //                         variant='filled'
-    //                       // value={equity.IpoDate}
-    //                       // onChange={handleValueChange}
-    //                       />
-    //                     </Stack>
-    //                   </Item>
-    //                 </Grid>
-    //                 <Grid item xs={12} sm={6} md={6}>
-    //                   <Item>
-    //                     <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
-    //                       <FormLabel sx={{ width: '150px' }}>Coupon Cap</FormLabel>
-    //                       <TextField disabled={!isInputEnabled} type="text" variant='filled' />
-    //                     </Stack>
-    //                   </Item>
-    //                 </Grid>
-    //                 <Grid item xs={12} sm={6} md={6}>
-    //                   <Item>
-    //                     <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
-    //                       <FormLabel sx={{ width: '150px' }}>Coupon Floor</FormLabel>
-    //                       <TextField disabled={!isInputEnabled} type="text" variant='filled' />
-    //                     </Stack>
-    //                   </Item>
-    //                 </Grid>
-    //                 <Grid item xs={12} sm={6} md={6}>
-    //                   <Item>
-    //                     <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
-    //                       <FormLabel sx={{ width: '150px' }}>Coupon Frequency</FormLabel>
-    //                       <TextField disabled={!isInputEnabled} type="text" variant='filled' />
-    //                     </Stack>
-    //                   </Item>
-    //                 </Grid>
-    //                 <Grid item xs={12} sm={6} md={6}>
-    //                   <Item>
-    //                     <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
-    //                       <FormLabel sx={{ width: '150px' }}>Coupon Rate</FormLabel>
-    //                       <TextField disabled={!isInputEnabled} type="text" variant='filled' />
-    //                     </Stack>
-    //                   </Item>
-    //                 </Grid>
-    //                 <Grid item xs={12} sm={6} md={6}>
-    //                   <Item>
-    //                     <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
-    //                       <FormLabel sx={{ width: '150px' }}>Coupon Type</FormLabel>
-    //                       <TextField disabled={!isInputEnabled} type="text" variant='filled' />
-    //                     </Stack>
-    //                   </Item>
-    //                 </Grid>
-    //                 <Grid item xs={12} sm={6} md={6}>
-    //                   <Item>
-    //                     <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
-    //                       <FormLabel sx={{ width: '150px' }}>  Float Spread</FormLabel>
-    //                       <TextField disabled={!isInputEnabled} type="text" variant='filled' />
-    //                     </Stack>
-    //                   </Item>
-    //                 </Grid>
-    //                 <Grid item xs={12} sm={6} md={6}>
-    //                   <Item>
-    //                     <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 4 }}>
-    //                       <FormLabel sx={{ width: '150px' }}>
-    //                         Is Callable
-    //                       </FormLabel>
-    //                       <RadioGroup
-    //                         sx={{ textAlign: 'center', m: 2 }}
-    //                         row
-    //                         name="row-radio-buttons-group"
-    //                       >
-    //                         <FormControlLabel value="true" disabled={!isInputEnabled} control={<Radio />} label="True" />
-    //                         <FormControlLabel value="false" disabled={!isInputEnabled} control={<Radio />} label="False" />
-    //                       </RadioGroup>
-    //                     </Stack>
-    //                   </Item>
-    //                 </Grid>
-    //                 <Grid item xs={12} sm={6} md={6}>
-    //                   <Item>
-    //                     <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 4 }}>
-    //                       <FormLabel sx={{ width: '150px' }}>
-    //                         IsFix to Float
-    //                       </FormLabel>
-    //                       <RadioGroup
-    //                         sx={{ textAlign: 'center', m: 2 }}
-    //                         row
-    //                         name="row-radio-buttons-group"
-    //                       >
-    //                         <FormControlLabel value="true" disabled={!isInputEnabled} control={<Radio />} label="True" />
-    //                         <FormControlLabel value="false" disabled={!isInputEnabled} control={<Radio />} label="False" />
-    //                       </RadioGroup>
-    //                     </Stack>
-    //                   </Item>
-    //                 </Grid>
-    //                 <Grid item xs={12} sm={6} md={6}>
-    //                   <Item>
-    //                     <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 4 }}>
-    //                       <FormLabel sx={{ width: '150px' }}>
-    //                         Is Putable
-    //                       </FormLabel>
-    //                       <RadioGroup
-    //                         sx={{ textAlign: 'center', m: 2 }}
-    //                         row
-    //                         name="row-radio-buttons-group"
-    //                       >
-    //                         <FormControlLabel value="true" disabled={!isInputEnabled} control={<Radio />} label="True" />
-    //                         <FormControlLabel value="false" disabled={!isInputEnabled} control={<Radio />} label="False" />
-    //                       </RadioGroup>
-    //                     </Stack>
-    //                   </Item>
-    //                 </Grid>
-    //                 <Grid item xs={12} sm={6} md={6}>
-    //                   <Item>
-    //                     <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
-    //                       <FormLabel sx={{ width: '150px' }}>Last Reset Date</FormLabel>
-    //                       <TextField
-    //                         type="date"
-    //                         name='FirstCouponDate'
-    //                         variant='filled'
-    //                       // value={equity.IpoDate}
-    //                       // onChange={handleValueChange}
-    //                       />
-    //                     </Stack>
-    //                   </Item>
-    //                 </Grid>
-    //                 <Grid item xs={12} sm={6} md={6}>
-    //                   <Item>
-    //                     <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
-    //                       <FormLabel sx={{ width: '150px' }}>Maturity</FormLabel>
-    //                       <TextField
-    //                         type="date"
-    //                         name='FirstCouponDate'
-    //                         variant='filled'
-    //                       // value={equity.IpoDate}
-    //                       // onChange={handleValueChange}
-    //                       />
-    //                     </Stack>
-    //                   </Item>
-    //                 </Grid>
-    //                 <Grid item xs={12} sm={6} md={6}>
-    //                   <Item>
-    //                     <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
-    //                       <FormLabel sx={{ width: '150px' }}>Maximum Call Notice Days</FormLabel>
-    //                       <TextField disabled={!isInputEnabled} type="text" variant='filled' />
-    //                     </Stack>
-    //                   </Item>
-    //                 </Grid>
-    //                 <Grid item xs={12} sm={6} md={6}>
-    //                   <Item>
-    //                     <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
-    //                       <FormLabel sx={{ width: '150px' }}>Maximum Put Notice Days</FormLabel>
-    //                       <TextField disabled={!isInputEnabled} type="text" variant='filled' />
-    //                     </Stack>
-    //                   </Item>
-    //                 </Grid>
-    //                 <Grid item xs={12} sm={6} md={6}>
-    //                   <Item>
-    //                     <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
-    //                       <FormLabel sx={{ width: '150px' }}> Penultimate Coupon Date</FormLabel>
-    //                       <TextField
-    //                         type="date"
-    //                         name='FirstCouponDate'
-    //                         variant='filled'
-    //                       // value={equity.IpoDate}
-    //                       // onChange={handleValueChange}
-    //                       />
-    //                     </Stack>
-    //                   </Item>
-    //                 </Grid>
-
-    //                 <Grid item xs={12} sm={6} md={6}>
-    //                   <Item>
-    //                     <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
-    //                       <FormLabel sx={{ width: '150px' }}>Reset Frequency</FormLabel>
-    //                       <TextField disabled={!isInputEnabled} type="text" variant='filled' />
-    //                     </Stack>
-    //                   </Item>
-    //                 </Grid>
-    //                 <Grid item xs={12} sm={6} md={6}>
-    //                   <Item>
-    //                     <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 4 }}>
-    //                       <FormLabel sx={{ width: '150px' }}>
-    //                         Has Position
-    //                       </FormLabel>
-    //                       <RadioGroup
-    //                         sx={{ textAlign: 'center', m: 2 }}
-    //                         row
-    //                         name="row-radio-buttons-group"
-    //                       >
-    //                         <FormControlLabel value="true" disabled={!isInputEnabled} control={<Radio />} label="True" />
-    //                         <FormControlLabel value="false" disabled={!isInputEnabled} control={<Radio />} label="False" />
-    //                       </RadioGroup>
-    //                     </Stack>
-    //                   </Item>
-    //                 </Grid>
-    //                 <Grid item xs={12} sm={12} md={12} sx={{
-    //                   m: 2,
-    //                   p: 2
-
-    //                 }}>
-    //                   <Stack sx={{ placeContent: "center" }} direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 4 }}>
-    //                     <Button size="small" variant="contained" onClick={enableInput}>EDIT</Button>
-    //                     <Button size="small" variant="contained" color="error" startIcon={<DeleteIcon />}>DELETE</Button>
-    //                     <LoadingButton
-    //                       size="small"
-    //                       color="success"
-    //                       startIcon={<SaveIcon />}
-    //                       variant="contained"
-    //                     >
-    //                       <span>Save</span>
-    //                     </LoadingButton>
-    //                   </Stack>
-    //                 </Grid>
-    //               </Grid>
-    //             </FormControl>
-    //           </Box>
-    //         </TabPanel>
-    //         <TabPanel value="4">
-    //           <Box sx={{ width: '100%' }}>
-    //             <FormControl>
-    //               <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 5 }}>
-    //                 <Grid item xs={12} sm={6} md={6}>
-    //                   <Item>
-    //                     <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
-    //                       <FormLabel sx={{ width: '150px' }}>Macaulay Duration</FormLabel>
-    //                       <TextField disabled={!isInputEnabled} type="text" variant='filled' />
-    //                     </Stack>
-    //                   </Item>
-    //                 </Grid>
-    //                 <Grid item xs={12} sm={6} md={6}>
-    //                   <Item>
-    //                     <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
-    //                       <FormLabel sx={{ width: '150px' }}>30D Volatility</FormLabel>
-    //                       <TextField disabled={!isInputEnabled} type="text" variant='filled' />
-    //                     </Stack>
-    //                   </Item>
-    //                 </Grid>
-    //                 <Grid item xs={12} sm={6} md={6}>
-    //                   <Item>
-    //                     <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
-    //                       <FormLabel sx={{ width: '150px' }}>90D Volatility</FormLabel>
-    //                       <TextField disabled={!isInputEnabled} type="text" variant='filled' />
-    //                     </Stack>
-    //                   </Item>
-    //                 </Grid>
-    //                 <Grid item xs={12} sm={6} md={6}>
-    //                   <Item>
-    //                     <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
-    //                       <FormLabel sx={{ width: '150px' }}>Convexty</FormLabel>
-    //                       <TextField disabled={!isInputEnabled} type="text" variant='filled' />
-    //                     </Stack>
-    //                   </Item>
-    //                 </Grid>
-    //                 <Grid item xs={12} sm={6} md={6}>
-    //                   <Item>
-    //                     <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
-    //                       <FormLabel sx={{ width: '150px' }}>30Day Average Volume</FormLabel>
-    //                       <TextField disabled={!isInputEnabled} type="text" variant='filled' />
-    //                     </Stack>
-    //                   </Item>
-    //                 </Grid>
-
-    //                 <Grid item xs={12} sm={12} md={12} sx={{
-    //                   m: 2,
-    //                   p: 2
-
-    //                 }}>
-    //                   <Stack sx={{ placeContent: "center" }} direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 4 }}>
-    //                     <Button size="small" variant="contained" onClick={enableInput}>EDIT</Button>
-    //                     <Button size="small" variant="contained" color="error" startIcon={<DeleteIcon />}>DELETE</Button>
-    //                     <LoadingButton
-    //                       size="small"
-    //                       color="success"
-    //                       startIcon={<SaveIcon />}
-    //                       variant="contained"
-    //                     >
-    //                       <span>Save</span>
-    //                     </LoadingButton>
-    //                   </Stack>
-    //                 </Grid>
-    //               </Grid>
-    //             </FormControl>
-    //           </Box>
-    //         </TabPanel>
-    //         <TabPanel value="5">
-    //           <Box sx={{ width: '100%' }}>
-    //             <FormControl>
-    //               <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 5 }}>
-    //                 <Grid item xs={12} sm={6} md={6}>
-    //                   <Item>
-    //                     <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
-    //                       <FormLabel sx={{ width: '150px' }}>PF Assest Class</FormLabel>
-    //                       <TextField disabled={!isInputEnabled} type="text" variant='filled' />
-    //                     </Stack>
-    //                   </Item>
-    //                 </Grid>
-    //                 <Grid item xs={12} sm={6} md={6}>
-    //                   <Item>
-    //                     <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
-    //                       <FormLabel sx={{ width: '150px' }}>PF Country</FormLabel>
-    //                       <TextField disabled={!isInputEnabled} type="text" variant='filled' />
-    //                     </Stack>
-    //                   </Item>
-    //                 </Grid>
-    //                 <Grid item xs={12} sm={6} md={6}>
-    //                   <Item>
-    //                     <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
-    //                       <FormLabel sx={{ width: '150px' }}>PF Credit Rating</FormLabel>
-    //                       <TextField disabled={!isInputEnabled} type="text" variant='filled' />
-    //                     </Stack>
-    //                   </Item>
-    //                 </Grid>
-    //                 <Grid item xs={12} sm={6} md={6}>
-    //                   <Item>
-    //                     <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
-    //                       <FormLabel sx={{ width: '150px' }}>PF Currency</FormLabel>
-    //                       <TextField disabled={!isInputEnabled} type="text" variant='filled' />
-    //                     </Stack>
-    //                   </Item>
-    //                 </Grid>
-    //                 <Grid item xs={12} sm={6} md={6}>
-    //                   <Item>
-    //                     <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
-    //                       <FormLabel sx={{ width: '150px' }}>PF Instrument</FormLabel>
-    //                       <TextField disabled={!isInputEnabled} type="text" variant='filled' />
-    //                     </Stack>
-    //                   </Item>
-    //                 </Grid>
-    //                 <Grid item xs={12} sm={6} md={6}>
-    //                   <Item>
-    //                     <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
-    //                       <FormLabel sx={{ width: '150px' }}>PF Liquidity Profile</FormLabel>
-    //                       <TextField disabled={!isInputEnabled} type="text" variant='filled' />
-    //                     </Stack>
-    //                   </Item>
-    //                 </Grid>
-    //                 <Grid item xs={12} sm={6} md={6}>
-    //                   <Item>
-    //                     <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
-    //                       <FormLabel sx={{ width: '150px' }}>PF Maturity</FormLabel>
-    //                       <TextField disabled={!isInputEnabled} type="text" variant='filled' />
-    //                     </Stack>
-    //                   </Item>
-    //                 </Grid>
-    //                 <Grid item xs={12} sm={6} md={6}>
-    //                   <Item>
-    //                     <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
-    //                       <FormLabel sx={{ width: '150px' }}>PF NAICS Code</FormLabel>
-    //                       <TextField disabled={!isInputEnabled} type="text" variant='filled' />
-    //                     </Stack>
-    //                   </Item>
-    //                 </Grid>
-    //                 <Grid item xs={12} sm={6} md={6}>
-    //                   <Item>
-    //                     <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
-    //                       <FormLabel sx={{ width: '150px' }}>PF Region</FormLabel>
-    //                       <TextField disabled={!isInputEnabled} type="text" variant='filled' />
-    //                     </Stack>
-    //                   </Item>
-    //                 </Grid>
-    //                 <Grid item xs={12} sm={6} md={6}>
-    //                   <Item>
-    //                     <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
-    //                       <FormLabel sx={{ width: '150px' }}>PF Sector</FormLabel>
-    //                       <TextField disabled={!isInputEnabled} type="text" variant='filled' />
-    //                     </Stack>
-    //                   </Item>
-    //                 </Grid>
-    //                 <Grid item xs={12} sm={6} md={6}>
-    //                   <Item>
-    //                     <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
-    //                       <FormLabel sx={{ width: '150px' }}>PF Sub Asset Class</FormLabel>
-    //                       <TextField disabled={!isInputEnabled} type="text" variant='filled' />
-    //                     </Stack>
-    //                   </Item>
-    //                 </Grid>
-    //                 <Grid item xs={12} sm={12} md={12} sx={{
-    //                   m: 2,
-    //                   p: 2
-
-    //                 }}>
-    //                   <Stack sx={{ placeContent: "center" }} direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 4 }}>
-    //                     <Button size="small" variant="contained" onClick={enableInput}>EDIT</Button>
-    //                     <Button size="small" variant="contained" color="error" startIcon={<DeleteIcon />}>DELETE</Button>
-    //                     <LoadingButton
-    //                       size="small"
-    //                       color="success"
-    //                       startIcon={<SaveIcon />}
-    //                       variant="contained"
-    //                     >
-    //                       <span>Save</span>
-    //                     </LoadingButton>
-    //                   </Stack>
-    //                 </Grid>
-    //               </Grid>
-    //             </FormControl>
-    //           </Box>
-    //         </TabPanel>
-    //         <TabPanel value="6">
-    //           <Box sx={{ width: '100%' }}>
-    //             <FormControl>
-    //               <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 5 }}>
-    //                 <Grid item xs={12} sm={6} md={6}>
-    //                   <Item>
-    //                     <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
-    //                       <FormLabel sx={{ width: '150px' }}>Bloomberg Industry Group</FormLabel>
-    //                       <TextField disabled={!isInputEnabled} type="text" variant='filled' />
-    //                     </Stack>
-    //                   </Item>
-    //                 </Grid>
-    //                 <Grid item xs={12} sm={6} md={6}>
-    //                   <Item>
-    //                     <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
-    //                       <FormLabel sx={{ width: '150px' }}>Bloomberg Industry Sub Group</FormLabel>
-    //                       <TextField disabled={!isInputEnabled} type="text" variant='filled' />
-    //                     </Stack>
-    //                   </Item>
-    //                 </Grid>
-    //                 <Grid item xs={12} sm={6} md={6}>
-    //                   <Item>
-    //                     <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
-    //                       <FormLabel sx={{ width: '150px' }}>Bloomberg Industry Sector</FormLabel>
-    //                       <TextField disabled={!isInputEnabled} type="text" variant='filled' />
-    //                     </Stack>
-    //                   </Item>
-    //                 </Grid>
-    //                 <Grid item xs={12} sm={6} md={6}>
-    //                   <Item>
-    //                     <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
-    //                       <FormLabel sx={{ width: '150px' }}>Country of Issuance</FormLabel>
-    //                       <TextField disabled={!isInputEnabled} type="text" variant='filled' />
-    //                     </Stack>
-    //                   </Item>
-    //                 </Grid>
-    //                 <Grid item xs={12} sm={6} md={6}>
-    //                   <Item>
-    //                     <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
-    //                       <FormLabel sx={{ width: '150px' }}>Issue Currency</FormLabel>
-    //                       <TextField disabled={!isInputEnabled} type="text" variant='filled' />
-    //                     </Stack>
-    //                   </Item>
-    //                 </Grid>
-    //                 <Grid item xs={12} sm={6} md={6}>
-    //                   <Item>
-    //                     <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
-    //                       <FormLabel sx={{ width: '150px' }}>Issuer</FormLabel>
-    //                       <TextField disabled={!isInputEnabled} type="text" variant='filled' />
-    //                     </Stack>
-    //                   </Item>
-    //                 </Grid>
-    //                 <Grid item xs={12} sm={6} md={6}>
-    //                   <Item>
-    //                     <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
-    //                       <FormLabel sx={{ width: '150px' }}>Risk Currency</FormLabel>
-    //                       <TextField disabled={!isInputEnabled} type="text" variant='filled' />
-    //                     </Stack>
-    //                   </Item>
-    //                 </Grid>
-    //                 <Grid item xs={12} sm={12} md={12} sx={{
-    //                   m: 2,
-    //                   p: 2
-
-    //                 }}>
-    //                   <Stack sx={{ placeContent: "center" }} direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 4 }}>
-    //                     <Button size="small" variant="contained" onClick={enableInput}>EDIT</Button>
-    //                     <Button size="small" variant="contained" color="error" startIcon={<DeleteIcon />}>DELETE</Button>
-    //                     <LoadingButton
-    //                       size="small"
-    //                       color="success"
-    //                       startIcon={<SaveIcon />}
-    //                       variant="contained"
-    //                     >
-    //                       <span>Save</span>
-    //                     </LoadingButton>
-    //                   </Stack>
-    //                 </Grid>
-    //               </Grid>
-    //             </FormControl>
-    //           </Box>
-    //         </TabPanel>
-    //         <TabPanel value="7">
-    //           <Box sx={{ width: '100%' }}>
-    //             <FormControl>
-    //               <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 5 }}>
-    //                 <Grid item xs={12} sm={6} md={6}>
-    //                   <Item>
-    //                     <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
-    //                       <FormLabel sx={{ width: '150px' }}> Put Date</FormLabel>
-    //                       <TextField
-    //                         type="date"
-    //                         name='PutDate'
-    //                         variant='filled'
-    //                       // value={equity.IpoDate}
-    //                       // onChange={handleValueChange}
-    //                       />
-    //                     </Stack>
-    //                   </Item>
-    //                 </Grid>
-    //                 <Grid item xs={12} sm={6} md={6}>
-    //                   <Item>
-    //                     <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
-    //                       <FormLabel sx={{ width: '150px' }}>Put Price</FormLabel>
-    //                       <TextField disabled={!isInputEnabled} type="text" variant='filled' />
-    //                     </Stack>
-    //                   </Item>
-    //                 </Grid>
-    //                 <Grid item xs={12} sm={12} md={12} sx={{
-    //                   m: 2,
-    //                   p: 2
-
-    //                 }}>
-    //                   <Stack sx={{ placeContent: "center" }} direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 4 }}>
-    //                     <Button size="small" variant="contained" onClick={enableInput}>EDIT</Button>
-    //                     <Button size="small" variant="contained" color="error" startIcon={<DeleteIcon />}>DELETE</Button>
-    //                     <LoadingButton
-    //                       size="small"
-    //                       color="success"
-    //                       startIcon={<SaveIcon />}
-    //                       variant="contained"
-    //                     >
-    //                       <span>Save</span>
-    //                     </LoadingButton>
-    //                   </Stack>
-    //                 </Grid>
-    //               </Grid>
-    //             </FormControl>
-    //           </Box>
-    //         </TabPanel>
-    //         <TabPanel value="8">
-    //           <Box sx={{ width: '100%' }}>
-    //             <FormControl>
-    //               <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 5 }}>
-    //                 <Grid item xs={12} sm={6} md={6}>
-    //                   <Item>
-    //                     <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
-    //                       <FormLabel sx={{ width: '150px' }}>Ask Price</FormLabel>
-    //                       <TextField disabled={!isInputEnabled} type="text" variant='filled' />
-    //                     </Stack>
-    //                   </Item>
-    //                 </Grid>
-    //                 <Grid item xs={12} sm={6} md={6}>
-    //                   <Item>
-    //                     <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
-    //                       <FormLabel sx={{ width: '150px' }}>High Price</FormLabel>
-    //                       <TextField disabled={!isInputEnabled} type="text" variant='filled' />
-    //                     </Stack>
-    //                   </Item>
-    //                 </Grid>
-    //                 <Grid item xs={12} sm={6} md={6}>
-    //                   <Item>
-    //                     <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
-    //                       <FormLabel sx={{ width: '150px' }}>Low Price</FormLabel>
-    //                       <TextField disabled={!isInputEnabled} type="text" variant='filled' />
-    //                     </Stack>
-    //                   </Item>
-    //                 </Grid>
-    //                 <Grid item xs={12} sm={6} md={6}>
-    //                   <Item>
-    //                     <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
-    //                       <FormLabel sx={{ width: '150px' }}>Open Price</FormLabel>
-    //                       <TextField disabled={!isInputEnabled} type="text" variant='filled' />
-    //                     </Stack>
-    //                   </Item>
-    //                 </Grid>
-    //                 <Grid item xs={12} sm={6} md={6}>
-    //                   <Item>
-    //                     <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
-    //                       <FormLabel sx={{ width: '150px' }}>Volume</FormLabel>
-    //                       <TextField disabled={!isInputEnabled} type="text" variant='filled' />
-    //                     </Stack>
-    //                   </Item>
-    //                 </Grid>
-    //                 <Grid item xs={12} sm={6} md={6}>
-    //                   <Item>
-    //                     <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
-    //                       <FormLabel sx={{ width: '150px' }}>Bid Price</FormLabel>
-    //                       <TextField disabled={!isInputEnabled} type="text" variant='filled' />
-    //                     </Stack>
-    //                   </Item>
-    //                 </Grid>
-    //                 <Grid item xs={12} sm={6} md={6}>
-    //                   <Item>
-    //                     <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
-    //                       <FormLabel sx={{ width: '150px' }}>Last Price</FormLabel>
-    //                       <TextField disabled={!isInputEnabled} type="text" variant='filled' />
-    //                     </Stack>
-    //                   </Item>
-    //                 </Grid>
-    //                 <Grid item xs={12} sm={12} md={12} sx={{
-    //                   m: 2,
-    //                   p: 2
-
-    //                 }}>
-    //                   <Stack sx={{ placeContent: "center" }} direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 4 }}>
-    //                     <Button size="small" variant="contained" onClick={enableInput}>EDIT</Button>
-    //                     <Button size="small" variant="contained" color="error" startIcon={<DeleteIcon />}>DELETE</Button>
-    //                     <LoadingButton
-    //                       size="small"
-    //                       color="success"
-    //                       startIcon={<SaveIcon />}
-    //                       variant="contained"
-    //                     >
-    //                       <span>Save</span>
-    //                     </LoadingButton>
-    //                   </Stack>
-    //                 </Grid>
-    //               </Grid>
-    //             </FormControl>
-    //           </Box>
-    //         </TabPanel>
-    //         <TabPanel value="9">
-    //           <Box sx={{ width: '100%' }}>
-    //             <FormControl>
-    //               <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 5 }}>
-    //                 <Grid item xs={12} sm={6} md={6}>
-    //                   <Item>
-    //                     <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
-    //                       <FormLabel sx={{ width: '150px' }}> Call Date</FormLabel>
-    //                       <TextField
-    //                         type="date"
-    //                         name='FirstCouponDate'
-    //                         variant='filled'
-    //                       // value={equity.IpoDate}
-    //                       // onChange={handleValueChange}
-    //                       />
-    //                     </Stack>
-    //                   </Item>
-    //                 </Grid>
-    //                 <Grid item xs={12} sm={6} md={6}>
-    //                   <Item>
-    //                     <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
-    //                       <FormLabel sx={{ width: '150px' }}>Call Price</FormLabel>
-    //                       <TextField disabled={!isInputEnabled} defaultValue="hi" type="text" variant='filled' />
-    //                     </Stack>
-    //                   </Item>
-    //                 </Grid>
-    //                 <Grid item xs={12} sm={12} md={12} sx={{
-    //                   m: 2,
-    //                   p: 2
-
-    //                 }}>
-    //                   <Stack sx={{ placeContent: "center" }} direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 4 }}>
-    //                     <Button size="small" variant="contained" onClick={enableInput} >EDIT</Button>
-    //                     <Button size="small" variant="contained" color="error" startIcon={<DeleteIcon />}>DELETE</Button>
-    //                     <LoadingButton
-    //                       size="small"
-    //                       color="success"
-    //                       startIcon={<SaveIcon />}
-    //                       variant="contained"
-    //                     >
-    //                       <span>Save</span>
-    //                     </LoadingButton>
-    //                   </Stack>
-    //                 </Grid>
-    //               </Grid>
-    //             </FormControl>
-    //           </Box>
-    //         </TabPanel>
-    //       </TabContext>
-    //     </Box>
-    //   </Card>
-    // </Box>
 
     <Box sx={{ p: 2 }}>
       <Box display="flex"
         justifyContent="center"
         alignItems="center">
         <Button size="small" startIcon={<AddIcon />} variant="contained" sx={{ m: 2 }} >
-          acf
+        <Link to="insertBonds">Insert New Bonds</Link>
         </Button>
       </Box>
 
@@ -1025,7 +215,8 @@ const Bonds = (props) => {
                     }}>
                       <Stack sx={{ placeContent: "center" }} direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 4 }}>
                         <Button size="small" variant="contained" onClick={enableInput}>EDIT</Button>
-                        <Button size="small" variant="contained" color="error" startIcon={<DeleteIcon />}>DELETE</Button>
+                        <Button size="small" variant="contained" color="error" startIcon={<DeleteIcon />} onClick={()=>{handleDelete()
+                        }}>DELETE</Button>
                         <LoadingButton
                           size="small"
                           color="success"
@@ -1092,7 +283,7 @@ const Bonds = (props) => {
                     }}>
                       <Stack sx={{ placeContent: "center" }} direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 4 }}>
                         <Button size="small" variant="contained" onClick={enableInput} >EDIT</Button>
-                        <Button size="small" variant="contained" color="error" startIcon={<DeleteIcon />}>DELETE</Button>
+                        <Button size="small" variant="contained" color="error" startIcon={<DeleteIcon />} onClick={()=>handleDelete()}>DELETE</Button>
                         <LoadingButton
                           size="small"
                           color="success"
@@ -1117,10 +308,11 @@ const Bonds = (props) => {
                         <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
                           <FormLabel sx={{ width: '150px' }}>First Coupon Date</FormLabel>
                           <TextField
+                          disabled={!isInputEnabled}
                             type="date"
                             name='FirstCouponDate'
                             variant='filled'
-
+                            defaultValue={formattedCouponDate}
                           // value={equity.IpoDate}
                           // onChange={handleValueChange}
                           />
@@ -1184,10 +376,11 @@ const Bonds = (props) => {
                           <RadioGroup
                             sx={{ textAlign: 'center', m: 2 }}
                             row
-                            name="row-radio-buttons-group"
+                            name="callableFlag"
+                            value={callableFlag}
                           >
-                            <FormControlLabel value="true" disabled={!isInputEnabled} control={<Radio />} label="True" />
-                            <FormControlLabel value="false" disabled={!isInputEnabled} control={<Radio />} label="False" />
+                            <FormControlLabel value="True" disabled={!isInputEnabled} control={<Radio />} label="True" />
+                            <FormControlLabel value="False" disabled={!isInputEnabled} control={<Radio />} label="False" />
                           </RadioGroup>
                         </Stack>
                       </Item>
@@ -1201,10 +394,11 @@ const Bonds = (props) => {
                           <RadioGroup
                             sx={{ textAlign: 'center', m: 2 }}
                             row
-                            name="row-radio-buttons-group"
+                            name="fixToFloatFlag"
+                            value={fixToFloatFlag}
                           >
-                            <FormControlLabel value="true" disabled={!isInputEnabled} control={<Radio />} label="True" />
-                            <FormControlLabel value="false" disabled={!isInputEnabled} control={<Radio />} label="False" />
+                            <FormControlLabel value="True" disabled={!isInputEnabled} control={<Radio />} label="True" />
+                            <FormControlLabel value="False" disabled={!isInputEnabled} control={<Radio />} label="False" />
                           </RadioGroup>
                         </Stack>
                       </Item>
@@ -1218,11 +412,29 @@ const Bonds = (props) => {
                           <RadioGroup
                             sx={{ textAlign: 'center', m: 2 }}
                             row
-                            name="row-radio-buttons-group"
+                            name="putableFlag"
+                            value={putableFlag}
                           >
-                            <FormControlLabel value="true" disabled={!isInputEnabled} control={<Radio />} label="True" />
-                            <FormControlLabel value="false" disabled={!isInputEnabled} control={<Radio />} label="False" />
+                            <FormControlLabel value="True" disabled={!isInputEnabled} control={<Radio />} label="True" />
+                            <FormControlLabel value="False" disabled={!isInputEnabled} control={<Radio />} label="False" />
                           </RadioGroup>
+                        </Stack>
+                      </Item>
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={6}>
+                      <Item>
+                        <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
+                          <FormLabel sx={{ width: '150px' }}>Issue Date</FormLabel>
+                          <TextField
+                          disabled={!isInputEnabled}
+                            type="date"
+                            name='issueDate'
+                            variant='filled'
+                            name="issueDate"
+                            defaultValue={formattedissueDate}
+                          // value={equity.IpoDate}
+                          // onChange={handleValueChange}
+                          />
                         </Stack>
                       </Item>
                     </Grid>
@@ -1231,10 +443,12 @@ const Bonds = (props) => {
                         <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
                           <FormLabel sx={{ width: '150px' }}>Last Reset Date</FormLabel>
                           <TextField
+                          disabled={!isInputEnabled}
                             type="date"
                             name='FirstCouponDate'
                             variant='filled'
-                            name="lastResetDate" defaultValue={lastResetDate}
+                            name="lastResetDate"
+                            defaultValue={formattedlastResetDate}
                           // value={equity.IpoDate}
                           // onChange={handleValueChange}
                           />
@@ -1246,10 +460,12 @@ const Bonds = (props) => {
                         <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
                           <FormLabel sx={{ width: '150px' }}>Maturity</FormLabel>
                           <TextField
+                          disabled={!isInputEnabled}
                             type="date"
                             name='FirstCouponDate'
                             variant='filled'
-                            name="maturity" defaultValue={maturity}
+                            name="maturity" 
+                            defaultValue={formattedmaturityDate}
                           // value={equity.IpoDate}
                           // onChange={handleValueChange}
                           />
@@ -1278,9 +494,11 @@ const Bonds = (props) => {
                           <FormLabel sx={{ width: '150px' }}> Penultimate Coupon Date</FormLabel>
                           <TextField
                             type="date"
+                            disabled={!isInputEnabled}
                             name='FirstCouponDate'
                             variant='filled'
-                            name="penultimateCouponDate" defaultValue={penultimateCouponDate}
+                            name="penultimateCouponDate" defaultValue={formattedpenultimateCouponDate}
+                            
                           // value={equity.IpoDate}
                           // onChange={handleValueChange}
                           />
@@ -1305,10 +523,11 @@ const Bonds = (props) => {
                           <RadioGroup
                             sx={{ textAlign: 'center', m: 2 }}
                             row
-                            name="row-radio-buttons-group"
+                            name="hasPosition"
+                            value={hasPosition}
                           >
-                            <FormControlLabel value="true" disabled={!isInputEnabled} control={<Radio />} label="True" />
-                            <FormControlLabel value="false" disabled={!isInputEnabled} control={<Radio />} label="False" />
+                            <FormControlLabel value="True" disabled={!isInputEnabled} control={<Radio />} label="True" />
+                            <FormControlLabel value="False" disabled={!isInputEnabled} control={<Radio />} label="False" />
                           </RadioGroup>
                         </Stack>
                       </Item>
@@ -1320,7 +539,7 @@ const Bonds = (props) => {
                     }}>
                       <Stack sx={{ placeContent: "center" }} direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 4 }}>
                         <Button size="small" variant="contained" onClick={enableInput}>EDIT</Button>
-                        <Button size="small" variant="contained" color="error" startIcon={<DeleteIcon />}>DELETE</Button>
+                        <Button size="small" variant="contained" color="error" startIcon={<DeleteIcon />} onClick={()=>handleDelete()}>DELETE</Button>
                         <LoadingButton
                           size="small"
                           color="success"
@@ -1387,7 +606,7 @@ const Bonds = (props) => {
                     }}>
                       <Stack sx={{ placeContent: "center" }} direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 4 }}>
                         <Button size="small" variant="contained" onClick={enableInput}>EDIT</Button>
-                        <Button size="small" variant="contained" color="error" startIcon={<DeleteIcon />}>DELETE</Button>
+                        <Button size="small" variant="contained" color="error" startIcon={<DeleteIcon />} onClick={()=>handleDelete()}>DELETE</Button>
                         <LoadingButton
                           size="small"
                           color="success"
@@ -1501,7 +720,7 @@ const Bonds = (props) => {
                     }}>
                       <Stack sx={{ placeContent: "center" }} direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 4 }}>
                         <Button size="small" variant="contained" onClick={enableInput}>EDIT</Button>
-                        <Button size="small" variant="contained" color="error" startIcon={<DeleteIcon />}>DELETE</Button>
+                        <Button size="small" variant="contained" color="error" startIcon={<DeleteIcon />} onClick={()=>handleDelete()}>DELETE</Button>
                         <LoadingButton
                           size="small"
                           color="success"
@@ -1583,7 +802,7 @@ const Bonds = (props) => {
                     }}>
                       <Stack sx={{ placeContent: "center" }} direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 4 }}>
                         <Button size="small" variant="contained" onClick={enableInput}>EDIT</Button>
-                        <Button size="small" variant="contained" color="error" startIcon={<DeleteIcon />}>DELETE</Button>
+                        <Button size="small" variant="contained" color="error" startIcon={<DeleteIcon />} onClick={()=>handleDelete()}>DELETE</Button>
                         <LoadingButton
                           size="small"
                           color="success"
@@ -1607,10 +826,11 @@ const Bonds = (props) => {
                         <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
                           <FormLabel sx={{ width: '150px' }}> Put Date</FormLabel>
                           <TextField
+                          disabled={!isInputEnabled}
                             type="date"
                             name='PutDate'
                             variant='filled'
-                            name="putDate" defaultValue={putDate}
+                            name="putDate" defaultValue={formattedputDate}
                           // value={equity.IpoDate}
                           // onChange={handleValueChange}
                           />
@@ -1632,7 +852,7 @@ const Bonds = (props) => {
                     }}>
                       <Stack sx={{ placeContent: "center" }} direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 4 }}>
                         <Button size="small" variant="contained" onClick={enableInput}>EDIT</Button>
-                        <Button size="small" variant="contained" color="error" startIcon={<DeleteIcon />}>DELETE</Button>
+                        <Button size="small" variant="contained" color="error" startIcon={<DeleteIcon />} onClick={()=>handleDelete()}>DELETE</Button>
                         <LoadingButton
                           size="small"
                           color="success"
@@ -1714,7 +934,7 @@ const Bonds = (props) => {
                     }}>
                       <Stack sx={{ placeContent: "center" }} direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 4 }}>
                         <Button size="small" variant="contained" onClick={enableInput}>EDIT</Button>
-                        <Button size="small" variant="contained" color="error" startIcon={<DeleteIcon />}>DELETE</Button>
+                        <Button size="small" variant="contained" color="error" startIcon={<DeleteIcon />} onClick={()=>handleDelete()}>DELETE</Button>
                         <LoadingButton
                           size="small"
                           color="success"
@@ -1739,12 +959,12 @@ const Bonds = (props) => {
                         <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
                           <FormLabel sx={{ width: '150px' }}> Call Date</FormLabel>
                           <TextField
+                          disabled={!isInputEnabled}
                             type="date"
                             name='FirstCouponDate'
                             variant='filled'
-                            name="callDate" defaultValue={callDate}
-                          // value={equity.IpoDate}
-                          // onChange={handleValueChange}
+                            name="callDate" defaultValue={formattedcallDate}
+                    
                           />
                         </Stack>
                       </Item>
@@ -1753,7 +973,7 @@ const Bonds = (props) => {
                       <Item>
                         <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
                           <FormLabel sx={{ width: '150px' }}>Call Price</FormLabel>
-                          <TextField disabled={!isInputEnabled} defaultValue="callPrice" name="callPrice" type="text" variant='filled' />
+                          <TextField disabled={!isInputEnabled} defaultValue={callPrice} name="callPrice" type="text" variant='filled' />
                         </Stack>
                       </Item>
                     </Grid>
@@ -1764,7 +984,7 @@ const Bonds = (props) => {
                     }}>
                       <Stack sx={{ placeContent: "center" }} direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 4 }}>
                         <Button size="small" variant="contained" onClick={enableInput} >EDIT</Button>
-                        <Button size="small" variant="contained" color="error" startIcon={<DeleteIcon />}>DELETE</Button>
+                        <Button size="small" variant="contained" color="error" startIcon={<DeleteIcon />} onClick={()=>handleDelete()}>DELETE</Button>
                         <LoadingButton
                           size="small"
                           color="success"

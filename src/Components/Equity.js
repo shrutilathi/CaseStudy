@@ -9,6 +9,8 @@ import TabList from "@mui/lab/TabList";
 import LoadingButton from '@mui/lab/LoadingButton';
 import SaveIcon from '@mui/icons-material/Save';
 import DeleteIcon from '@mui/icons-material/Delete';
+import axios from 'axios';
+
 
 
 const Item = styled(Box)(({ theme }) => ({
@@ -90,6 +92,14 @@ const Equity = (props) => {
   const formattedRecordDate = dividendRecordDate ? dividendRecordDate.split('T')[0] : '';
   const formattedPayDate = dividendPayDate ? dividendPayDate.split('T')[0] : '';
 
+  const handleDelete = ()=>{
+
+        axios.delete(`http://localhost:5150/api/Equity/DeleteEquity/${securityId}`)
+        .then(res => {alert("Record Deleted Successfully");
+window.location.reload(true)})
+        .catch(err => {alert("Please Enter Valid Security ID")});
+  }
+
   const [value, setValue] = React.useState("1");
   // const [data,setdata] = React.useState()
   const handleChange = (event, newValue) => {
@@ -101,10 +111,6 @@ const Equity = (props) => {
     setInputEnabled(true);
   };
 
-  useEffect(() => {
-    console.log(props.eqData)
-
-  })
   return (
     <Box sx={{ p: 2 }}>
       <Box display="flex"
@@ -146,7 +152,6 @@ const Equity = (props) => {
                         </Stack>
                       </Item>
                     </Grid>
-                    {console.log("secutiyy name"+securityName)}
                     <Grid item xs={12} sm={6} md={6}>
                       <Item>
                         <Stack direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 2 }}>
@@ -215,7 +220,7 @@ const Equity = (props) => {
                     }}>
                       <Stack sx={{ placeContent: "center" }} direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 4 }}>
                         <Button size="small" variant="contained" onClick={enableInput} >EDIT</Button>
-                        <Button size="small" variant="contained" color="error" startIcon={<DeleteIcon />}>DELETE</Button>
+                        <Button size="small" variant="contained" color="error" startIcon={<DeleteIcon />} onClick={()=>handleDelete()}>DELETE</Button>
                         <LoadingButton
                           size="small"
                           color="success"
@@ -299,7 +304,7 @@ const Equity = (props) => {
                     }}>
                       <Stack sx={{ placeContent: "center" }} direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 4 }}>
                         <Button size="small" variant="contained" onClick={enableInput} >EDIT</Button>
-                        <Button size="small" variant="contained" color="error" startIcon={<DeleteIcon />}>DELETE</Button>
+                        <Button size="small" variant="contained" color="error" startIcon={<DeleteIcon />} onClick={()=>handleDelete()}>DELETE</Button>
                         <LoadingButton
                           size="small"
                           color="success"
@@ -415,7 +420,7 @@ const Equity = (props) => {
                     }}>
                       <Stack sx={{ placeContent: "center" }} direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 4 }}>
                         <Button size="small" variant="contained" onClick={enableInput} >EDIT</Button>
-                        <Button size="small" variant="contained" color="error" startIcon={<DeleteIcon />}>DELETE</Button>
+                        <Button size="small" variant="contained" color="error" startIcon={<DeleteIcon />} onClick={()=>handleDelete()}>DELETE</Button>
                         <LoadingButton
                           size="small"
                           color="success"
@@ -481,7 +486,7 @@ const Equity = (props) => {
                     }}>
                       <Stack sx={{ placeContent: "center" }} direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 4 }}>
                         <Button size="small" variant="contained" onClick={enableInput}>EDIT</Button>
-                        <Button size="small" variant="contained" color="error" startIcon={<DeleteIcon />}>DELETE</Button>
+                        <Button size="small" variant="contained" color="error" startIcon={<DeleteIcon />} onClick={()=>handleDelete()}>DELETE</Button>
                         <LoadingButton
                           size="small"
                           color="success"
@@ -595,7 +600,7 @@ const Equity = (props) => {
                     }}>
                       <Stack sx={{ placeContent: "center" }} direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 4 }}>
                         <Button size="small" variant="contained" onClick={enableInput}>EDIT</Button>
-                        <Button size="small" variant="contained" color="error" startIcon={<DeleteIcon />}>DELETE</Button>
+                        <Button size="small" variant="contained" color="error" startIcon={<DeleteIcon />} onClick={()=>handleDelete()}>DELETE</Button>
                         <LoadingButton
                           size="small"
                           color="success"
@@ -701,7 +706,7 @@ const Equity = (props) => {
                     }}>
                       <Stack sx={{ placeContent: "center" }} direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 4 }}>
                         <Button size="small" variant="contained" onClick={enableInput}>EDIT</Button>
-                        <Button size="small" variant="contained" color="error" startIcon={<DeleteIcon />}>DELETE</Button>
+                        <Button size="small" variant="contained" color="error" startIcon={<DeleteIcon />} onClick={()=>handleDelete()}>DELETE</Button>
                         <LoadingButton
                           size="small"
                           color="success"
@@ -783,7 +788,7 @@ const Equity = (props) => {
                     }}>
                       <Stack sx={{ placeContent: "center" }} direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 4 }}>
                         <Button size="small" variant="contained" onClick={enableInput}>EDIT</Button>
-                        <Button size="small" variant="contained" color="error" startIcon={<DeleteIcon />}>DELETE</Button>
+                        <Button size="small" variant="contained" color="error" startIcon={<DeleteIcon />} onClick={()=>handleDelete()}>DELETE</Button>
                         <LoadingButton
                           size="small"
                           color="success"
@@ -895,7 +900,7 @@ const Equity = (props) => {
                     }}>
                       <Stack sx={{ placeContent: "center" }} direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{ xs: 1, sm: 1, md: 4 }}>
                         <Button size="small" variant="contained" onClick={enableInput}>EDIT</Button>
-                        <Button size="small" variant="contained" color="error" startIcon={<DeleteIcon />}>DELETE</Button>
+                        <Button size="small" variant="contained" color="error" startIcon={<DeleteIcon />} onClick={()=>handleDelete()}>DELETE</Button>
                         <LoadingButton
                           size="small"
                           color="success"

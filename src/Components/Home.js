@@ -73,7 +73,6 @@ const Home = () => {
       res=>setBondsData(res.data)
     ).catch(err=>console.log(err))
     
-    console.log(eqData)
   };
 
   return (
@@ -98,7 +97,7 @@ const Home = () => {
           </Search>
         </Stack>
         {
-          bonds? <Bonds bondsData={bondsData}/>: <Equity eqData={eqData}/>
+          bonds? <Bonds bondsData={bondsData} />: <Equity eqData={eqData}/>
         }
       
       </ThemeProvider>
