@@ -67,7 +67,7 @@ const Home = () => {
   const handleSearchChange = e => {
     axios.get(`http://localhost:5150/api/Equity/GetEquityById/${searchField}`).then(
       res=>setEqData(res.data)
-    ).catch(err=>console.log(err))
+    ).catch(err=>{alert("Record Not Found")})
 
     axios.get(`http://localhost:5150/api/Bonds/GetBondById/${searchField}`).then(
       res=>setBondsData(res.data)
